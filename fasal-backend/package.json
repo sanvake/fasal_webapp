@@ -1,0 +1,21 @@
+{
+  "name": "fasal-backend",
+  "version": "1.0.0",
+  "description": "a backend for movie lists",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.3.0",
+    "nodemon": "^2.0.15",
+    "sqlite3": "^5.0.2"
+  }
+}

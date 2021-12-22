@@ -1,0 +1,56 @@
+96d45a6cf603a83caac06f4f127a6e7b078f38457b163bd20bab47e85a7d49b75763af3857d6cd88f7f2b1836c1a577a9561a12f24f238726f22ed7fc8d8aa64
+
+{
+  Title: 'John Wick',
+  Year: '2014',
+  Rated: 'R',
+  Released: '24 Oct 2014',
+  Runtime: '101 min',
+  Genre: 'Action, Crime, Thriller',
+  Director: 'Chad Stahelski, David Leitch',
+  Writer: 'Derek Kolstad',
+  Actors: 'Keanu Reeves, Michael Nyqvist, Alfie Allen',
+  Plot: 'An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.',
+  Language: 'English, Russian, Hungarian',
+  Country: 'United States, United Kingdom, China',
+  Awards: '5 wins & 10 nominations',
+  Poster: 'https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_SX300.jpg',
+  Ratings: [
+    { Source: 'Internet Movie Database', Value: '7.4/10' },
+    { Source: 'Rotten Tomatoes', Value: '86%' },
+    { Source: 'Metacritic', Value: '68/100' }
+  ],
+  Metascore: '68',
+  imdbRating: '7.4',
+  imdbVotes: '584,251',
+  imdbID: 'tt2911666',
+  Type: 'movie',
+  DVD: '03 Feb 2015',
+  BoxOffice: '$43,037,835',
+  Production: 'N/A',
+  Website: 'N/A',
+  Response: 'True'
+}
+
+
+[1,josdij,s,d,sd,,,sd,s,d],[1,sdijio],[2,dsdpsd],
+
+tt0418279
+
+tt0848228
+
+tt0111161
+
+CREATE TABLE "list_movies" (
+	"list_id"	INTEGER,
+	"movie_idmb_id"	TEXT,
+	FOREIGN KEY("list_id") REFERENCES "user_lists"("list_id"),
+	FOREIGN KEY("movie_idmb_id") REFERENCES "movies"("movie_idmb_id")
+);
+
+CREATE TABLE "list_movies" (
+	"list_id"	INTEGER,
+	"movie_idmb_id"	TEXT,
+	FOREIGN KEY("list_id") REFERENCES "user_lists"("list_id"),
+	FOREIGN KEY("movie_idmb_id") REFERENCES "movies"("movie_idmb_id")
+);
