@@ -126,18 +126,18 @@ app.post("/sign-in", (req, resp, next) => {
             if (user.password == password) {
                 //Generate auth token and login
                 var token = generateAccessToken(user.user_id);
-                resp.json({
+                return(resp.json({
                     status: 200,
                     message: "Successfully logged in ",
                     auth_token: token
-                });
+                }));
 
             }
             else {
-                resp.json({
+                return(resp.json({
                     status: 500,
                     message: "Wrong password"
-                });
+                }));
             }
         }
     })

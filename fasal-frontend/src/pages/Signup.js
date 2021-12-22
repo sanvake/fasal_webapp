@@ -29,6 +29,7 @@ const Signup = () => {
         <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',height:'50vh', flexDirection:'column'}}>
             <h2>Sign Up</h2>
             <div>
+                <form onSubmit={handleSubmitSignup} >
                 <label for="name">Name :</label><br/>
                 <input id="name" type="text" placeholder='Your Name' onChange={(e)=>(setform({...form, name: e.target.value}))} /><br/>
                 <label for="age">Age :</label><br/>
@@ -39,7 +40,8 @@ const Signup = () => {
                 <input id="pass" type="password" placeholder='Password' onChange={(e)=>(setform({...form, password: e.target.value }))} /><br/>
                 <label for="cpass">Confirm Password :</label><br/>
                 <input id="cpass" type="password" placeholder='Confirm password' onChange={(e)=>(setform({...form, confirmPassword : e.target.value}))} /><br/><br/>
-                <button onClick={handleSubmitSignup} >Submit</button>
+                <button type="submit" >Submit</button>
+                </form>
             </div>
         </div>
     )
