@@ -1,14 +1,17 @@
-const axios = require("axios")
-
-const express = require("express");
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import axios from 'axios'
+import express from 'express'
 
 const app = express();
+app.use(cors())
+app.use(bodyParser.json({ limit: '50mb' , extended: true}));
+app.use(bodyParser.urlencoded({ limit: '30mb' , extended: true }));
 
-
-var sqlite3 = require('sqlite3').verbose()
-var md5 = require('md5')
-const jwt = require('jsonwebtoken');
-const { query, response } = require("express");
+import sqlite3 from 'sqlite3'
+import md5 from 'md5'
+import jwt from 'jsonwebtoken'
+import { query, response } from 'express'
 
 const token_secret = '96d45a6cf603a83caac06f4f127a6e7b078f38457b163bd20bab47e85a7d49b75763af3857d6cd88f7f2b1836c1a577a9561a12f24f238726f22ed7fc8d8aa64';
 
@@ -70,21 +73,20 @@ app.post("/sign-up", (req, res, next) => {
     }
     db.all("select * from user where email = ? ", [email], (err, rows) => {
         if (rows.length > 0) {
-            res.json({
-                error: "459",
-                message: "User already exists, try logging in "
-            });
-            return;
+            return(res.json({
+                status: 459,
+                message: "User already exists, try logging in"
+            }))
         }
         else {
             var insert = "INSERT INTO USER (name, email, password, age) values (?,?,?,?)";
             db.run(insert, [name, email, password, age]); //Check for errors later
-            res.json(
+            return(res.json(
                 {
                     status: 200,
                     message: "User account created successfully"
                 }
-            )
+            ))
         }
     })
 
@@ -240,8 +242,7 @@ app.get("/getAllUserLists", async (req, res, next) => {
 app.get("/getListById", (req, res, next) => {
 
     //Check if either public or auth token for the requested user
-    const user_id = 1;
-    const { list_id } = req.query;
+    const { user_id , list_id } = req.query;
     var sql = "select privacy from user_lists where list_id = ?";
     db.all(sql, [list_id], (err, rows) => {
         if (rows.length > 0) {

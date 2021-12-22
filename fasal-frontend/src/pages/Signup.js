@@ -1,22 +1,27 @@
 import {  useState  } from 'react';
-import {Navigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {signup} from '../api.js';
 
 const Signup = () => {
+    const Navigate = useNavigate();
     const [form, setform] = useState({name:'',email:'',password:'',confirmPassword:"",age:""});
     const handleSubmitSignup = async (e) => {
         e.preventDefault();
         if(form?.password!==form?.confirmPassword){ return alert("Passord not matching")};
-        const response = await fetch(`127.0.0.1:8000/sign-up?name=${form?.name}&email=${form?.email}&age=${form.age}&password=${form.password}`, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-          });
-          if(response?.status===200){
+        try {
+            var {data} = await signup(form.name, form.email, form.password, form.age);
+        } catch (error) {
+            console.log(error)
+        }
+            console.log(data)
+          if(data?.status===200){
               alert("User succesfully created, Please Sign in.");
-              Navigate({to:'/login'});
+              Navigate('/login');
           }
+          else if(data?.status===459){
+            alert("User already exists, Please Sign in.");
+            Navigate('/login');
+        }
     }
 
     return (
