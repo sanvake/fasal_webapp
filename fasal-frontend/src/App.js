@@ -2,6 +2,7 @@ import {Routes, Redirect, Route} from 'react-router-dom';
 import Auth from "./pages/auth.js";
 import Home from "./pages/Home.js";
 import Signup from "./pages/Signup.js";
+import User from "./pages/User.js";
 import { useState } from 'react';
 
 const App = ()=> {
@@ -14,6 +15,7 @@ const App = ()=> {
             <Route path="/" exact element={<Home/>}/>
             <Route path="/login" exact element={<Auth/>} />
             <Route path="/signup" exact element={<Signup/>} />
+            <Route path="/user" exact element={<User/>} />
         </Routes>
     </div>
   );

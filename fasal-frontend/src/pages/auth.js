@@ -19,7 +19,7 @@ const Auth = () => {
           if(data?.status===200){
               localStorage.setItem('token', data.auth_token);
               alert("You are now logged in.");
-              Navigate('/home');
+              Navigate('/');
           }
           else if(data?.status===400){
             alert("User unavailable, Please Sign up.");
@@ -42,7 +42,7 @@ const Auth = () => {
                 <button type="submit" >Submit</button>
                 </form>
                 <div>Dont have an account? <Link to="/signup" >Sign up</Link> instead</div>
-                <div>Wanna skip login? go to <Link to="/home" >Home</Link></div>
+                <div>Wanna skip login? go to <Link to="/" >Home</Link></div>
             </div>
         </div>
     )

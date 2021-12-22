@@ -198,8 +198,6 @@ app.post("/addMovieToList", (req, res, next) => {
             console.log(err);
         });
 
-        //const { movie_imdb_id, list_id} = req.query;
-
         var sql = "insert into list_movies(list_id, movie_imdb_id) values ( ?, ? )";
         db.run(sql, [list_id, movie_imdb_id], (err, rows) => {
             res.json({
@@ -212,7 +210,7 @@ app.post("/addMovieToList", (req, res, next) => {
 });
 
 app.get("/getAllUserLists", async (req, res, next) => {
-    const { user_id } = req.query;
+    const user_id = req.user?.user_id;
     //The current user is the one requesting the list //Check once later
     const result = [];
     var ab = [];
@@ -267,6 +265,29 @@ app.get("/getListById", (req, res, next) => {
 
 })
 
+app.get("/getListByUser", authenticateToken , (req, res, next) => {
+
+    //Check if either public or auth token for the requested user
+    const { user_id } = req.user;
+    var sql = "select * from user_lists where user_id = ?";
+    db.all(sql, [user_id], (err, rows) => {
+        if (rows.length > 0) {
+            return(res.json({
+                status: 200,
+                message: "list exists",
+                list_ids: rows
+
+            }))
+            }
+            else {
+                return(res.json({
+                    status: 421,
+                    message: "No such list exists"
+                }))
+            }
+        }
+    )}
+)
 
 //Later
 app.post("/removeMovieFromList", (req, res, next) => {
