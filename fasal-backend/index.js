@@ -12,7 +12,7 @@ const { query, response } = require("express");
 
 const token_secret = '96d45a6cf603a83caac06f4f127a6e7b078f38457b163bd20bab47e85a7d49b75763af3857d6cd88f7f2b1836c1a577a9561a12f24f238726f22ed7fc8d8aa64';
 
-const DBSOURCE = "database.sqlite3";
+const DBSOURCE = "webapp_db.sqlite3";
 
 
 
@@ -180,8 +180,8 @@ app.post("/addList", (req, res, next) => {
 
 app.post("/addMovieToList", (req, res, next) => {
 
-    const { movie_idmb_id, list_id } = req.query;
-    axios.get("http://www.omdbapi.com/?apikey=9882f1fd&i=" + movie_idmb_id).then((response) => {
+    const { movie_imdb_id, list_id } = req.query;
+    axios.get("http://www.omdbapi.com/?apikey=9882f1fd&i=" + movie_imdb_id).then((response) => {
         const data = response.data;
         console.log(response.data);
         const movie_name = data.Title;
@@ -191,21 +191,21 @@ app.post("/addMovieToList", (req, res, next) => {
         const movie_plot = data.Plot;
         const movie_ratings = data.imdbRating;
         const movie_poster = data.Poster;
-        var insert_movie = "insert into movies(movie_idmb_id, movie_name, movie_genre, movie_actors, movie_directors, movie_plot, movie_ratings, movie_poster) values (?,?,?,?,?,?,?,?)";
-        db.run(insert_movie, [movie_idmb_id, movie_name, movie_genre, movie_actors, movie_directors, movie_plot, movie_ratings, movie_poster], (err, rows) => {
+        var insert_movie = "insert into movies(movie_imdb_id, movie_name, movie_genre, movie_actors, movie_directors, movie_plot, movie_ratings, movie_poster) values (?,?,?,?,?,?,?,?)";
+        db.run(insert_movie, [movie_imdb_id, movie_name, movie_genre, movie_actors, movie_directors, movie_plot, movie_ratings, movie_poster], (err, rows) => {
             console.log(err);
         });
 
-        //const { movie_idmb_id, list_id} = req.query;
+        //const { movie_imdb_id, list_id} = req.query;
 
-        var sql = "insert into list_movies(list_id, movie_idmb_id) values ( ?, ? )";
-        db.run(sql, [list_id, movie_idmb_id], (err, rows) => {
+        var sql = "insert into list_movies(list_id, movie_imdb_id) values ( ?, ? )";
+        db.run(sql, [list_id, movie_imdb_id], (err, rows) => {
             res.json({
                 status: 200,
                 message: "added movie to the list"
             });
         });
-        console.log(movie_idmb_id, list_id)
+        console.log(movie_imdb_id, list_id)
     });
 });
 
@@ -215,7 +215,7 @@ app.get("/getAllUserLists", async (req, res, next) => {
     const result = [];
     var ab = [];
 
-    var sql = "select * from user_lists left join list_movies on user_lists.list_id = list_movies.list_id left join movies on list_movies.movie_idmb_id = movies.movie_idmb_id where user_id = ? order by list_id"
+    var sql = "select * from user_lists left join list_movies on user_lists.list_id = list_movies.list_id left join movies on list_movies.movie_imdb_id = movies.movie_imdb_id where user_id = ? order by list_id"
 
     db.all(sql, [user_id], (err, rows) => {
         var prev_list_id = -1;
@@ -248,7 +248,7 @@ app.get("/getListById", (req, res, next) => {
             const row = rows[0];
             if (row.privacy == 1) {
 
-                sql1 = "select * from list_movies inner join movies on movies.movie_idmb_id = list_movies.movie_idmb_id where list_movies.list_id = ?"
+                sql1 = "select * from list_movies inner join movies on movies.movie_imdb_id = list_movies.movie_imdb_id where list_movies.list_id = ?"
                 db.all(sql1, [list_id], (err, rows) => {
                     res.json({
                         list_movies: rows

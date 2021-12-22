@@ -1,0 +1,36 @@
+CREATE TABLE "list_movies" (
+	"list_id"	INTEGER,
+	"movie_imdb_id"	TEXT,
+	PRIMARY KEY("list_id","movie_imdb_id"),
+	FOREIGN KEY("list_id") REFERENCES "user_lists"("list_id"),
+	FOREIGN KEY("movie_imdb_id") REFERENCES "movies"("movie_imdb_id")
+);
+
+CREATE TABLE "movies" (
+	"movie_imdb_id"	TEXT NOT NULL,
+	"movie_name"	TEXT,
+	"movie_genre"	TEXT,
+	"movie_actors"	TEXT,
+	"movie_directors"	TEXT,
+	"movie_plot"	TEXT,
+	"movie_ratings"	REAL,
+	"movie_poster"	TEXT,
+	PRIMARY KEY("movie_imdb_id")
+);
+
+CREATE TABLE "user" (
+	"email"	TEXT,
+	"name"	TEXT,
+	"age"	INTEGER,
+	"password"	TEXT,
+	"user_id"	INTEGER NOT NULL,
+	PRIMARY KEY("user_id" AUTOINCREMENT)
+);
+
+CREATE TABLE "user_lists" (
+	"user_id"	INTEGER NOT NULL,
+	"list_id"	INTEGER NOT NULL,
+	"list_name"	TEXT,
+	"privacy"	INTEGER,
+	PRIMARY KEY("list_id" AUTOINCREMENT)
+);
