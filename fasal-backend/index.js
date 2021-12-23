@@ -23,18 +23,13 @@ function generateAccessToken(id) {
     return jwt.sign({ id: id }, token_secret, { expiresIn: '1800s' });
 }
 
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-
+function authenticateToken(token, res) {
     if (token == null) return res.sendStatus(401)
-
     jwt.verify(token, token_secret, (err, user) => {
-        console.log(err)
 
         if (err) return res.sendStatus(403)
-
-        req.user = user
+        console.log("test",user);
+        return(user.id)
 
         next()
     })
@@ -265,12 +260,20 @@ app.get("/getListById", (req, res, next) => {
 
 })
 
-app.get("/getListByUser", authenticateToken , (req, res, next) => {
-
+app.get("/getListByUser", (req, res, next) => {
+    // console.log(req);
+    const autoken = req.headers.authorization;
+    console.log(autoken);
     //Check if either public or auth token for the requested user
-    const { user_id } = req.user;
-    var sql = "select * from user_lists where user_id = ?";
-    db.all(sql, [user_id], (err, rows) => {
+
+    jwt.verify(autoken, token_secret, (err, user) => {
+
+        if (err) return res.sendStatus(403)
+        const user_id = user.id;
+        // const { user_id } = req.user;
+        console.log(user_id);
+        var sql = "select * from user_lists where user_id = ?";
+        db.all(sql, [user_id], (err, rows) => {
         if (rows.length > 0) {
             return(res.json({
                 status: 200,
@@ -286,7 +289,9 @@ app.get("/getListByUser", authenticateToken , (req, res, next) => {
                 }))
             }
         }
-    )}
+        
+    )
+    })}
 )
 
 //Later

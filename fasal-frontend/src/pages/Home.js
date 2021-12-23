@@ -17,7 +17,7 @@ const Home = () => {
         } catch (error) { }
     }
 
-    const getMyList = async (e) => {
+    const getMyListF = async (e) => {
         try {
             const {data} = await getMyList();
             console.log(data);
@@ -49,7 +49,7 @@ const Home = () => {
                     <img src={m?.Poster} width="100%" style={{borderRadius:'8px', maxHeight:"290px", objectFit:'cover'}} />
                     <h3>{m?.Title}</h3>
                     <p>{m?.Year}</p>
-                    <button onClick={()=>(getMyList())} >Add to my wishlist</button>
+                    <button onClick={()=>(getMyListF())} >Add to my wishlist</button>
                     </div>
                 ))}
                 </div>
